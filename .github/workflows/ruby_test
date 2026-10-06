@@ -1,0 +1,11 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+steps:
+- uses: actions/checkout@v6
+- uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+  with:
+    ruby-version: '3.1' # Not needed with a .ruby-version file
+- run: bundle install
+- run: bundle exec rake
