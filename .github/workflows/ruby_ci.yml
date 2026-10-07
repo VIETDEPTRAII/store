@@ -9,6 +9,10 @@
 
 name: Ruby CI
 
+branding:
+  icon: truck          # ← tên icon từ list
+  color: yellow      # ← yellow cho giống màu con robot trong hình
+
 on:
   pull_request:
   push:
@@ -20,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, macos]
+        os: [ubuntu, macos, ]
         ruby: ['3.3.5', '4.0']
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
