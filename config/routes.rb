@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get "ping" => "pings#show"
+    get "echo" => "echoes#show"
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
