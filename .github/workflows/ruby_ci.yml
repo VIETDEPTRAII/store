@@ -55,4 +55,4 @@ jobs:
         with:
           ruby-version: '3.3.5'
       - name: Rubocop
-        run: rubocop -f github
+        run: bin/rubocop -f github
