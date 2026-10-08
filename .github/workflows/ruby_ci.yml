@@ -54,5 +54,6 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3.5'
+          bundler-cache: true
       - name: Rubocop
         run: bin/rubocop -f github
