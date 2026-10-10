@@ -31,21 +31,21 @@ jobs:
   #     - run: bundle install
   #     - run: bundle exec rake
 
-  # test:
-  #   runs-on: ${{ matrix.os }}-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu]
-  #       ruby: ['3.3.5']
-  #   continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: ${{ matrix.ruby }}
-  #         bundler-cache: true
-  #     - run: bundle exec rake
+  test:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu]
+        ruby: ['3.3.5']
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: bundle exec rake
 
   lint:
     runs-on: ubuntu-latest
