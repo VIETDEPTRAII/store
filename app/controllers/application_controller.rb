@@ -4,4 +4,8 @@ class ApplicationController < ActionController::Base
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
+
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { errors: [ "#{e.param.to_s.humanize} is required" ] }, status: :bad_request
+  end
 end
