@@ -15,37 +15,38 @@ on:
     branches: [ main ]
 
 jobs:
-  # test:
-  #   runs-on: ${{ matrix.os }}-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu, macos, windows]
-  #       ruby: ['3.3.5', '4.0']
-  #   continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: ${{ matrix.ruby }}
-  #     - run: bundle install
-  #     - run: bundle exec rake
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-  # test:
-  #   runs-on: ${{ matrix.os }}-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu]
-  #       ruby: ['3.3.5']
-  #   continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: ${{ matrix.ruby }}
-  #         bundler-cache: true
-  #     - run: bundle exec rake
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+          bundler-cache: true
+
+      - name: Rubocop
+        run: bin/rubocop
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+          bundler-cache: true
+
+      - name: Scan for common Rails security vulnerabilities using static analysis
+        run: bin/brakeman --no-pager
+
+      - name: Scan for known security vulnerabilities in gems used
+        run: bin/bundler-audit
 
   test:
     runs-on: ubuntu-latest
@@ -70,21 +71,17 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3.5'
-          bundler-cache: true
-      - run: bin/rails db:prepare
-      - run: bundle exec rake
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3.5'
           bundler-cache: true
-      - name: Rubocop
-        run: bin/rubocop
+
+      - name: Create database and run migrations
+        run: bin/rails db:prepare
+
+      - name: Run tests
+        run: bin/rails test
