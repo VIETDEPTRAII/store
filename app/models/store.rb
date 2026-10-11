@@ -1,6 +1,6 @@
 class Store < ApplicationRecord
   # Test Gitleaks scanner (CI/CD)
-  API_SECRET = "a1b2c3d4e5f6g7h8i9j0_super_secret_token_xyz987654321"
+  API_SECRET = "x7K9mZq2LpW4vN8tR3cF6hJ1aS5dG0bE"
 
   belongs_to :user
 
