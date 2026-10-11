@@ -19,6 +19,9 @@ gem "jbuilder"
 # JSON Web Token implementation [https://github.com/jwt/ruby-jwt]
 gem "jwt"
 
+# Test bundle audit security scanner (CI/CD)
+gem "net-imap", "0.5.12"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 

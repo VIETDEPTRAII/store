@@ -12,6 +12,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
   private
 
   def user_params
+    # Test for required parameters (CI/CD)
     params.require(:email)
     params.require(:password)
     params.permit(:email, :password, :name)
