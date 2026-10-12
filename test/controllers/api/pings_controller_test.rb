@@ -6,6 +6,8 @@ class Api::PingsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal "application/json; charset=utf-8", response.content_type
-    assert_equal({ "status" => "ok" }, JSON.parse(response.body))
+    body = JSON.parse(response.body)
+    assert_equal "ok", body["status"]
+    assert body["deployed_at"].present?
   end
 end
