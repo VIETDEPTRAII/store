@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Deploy/run the prod compose stack: optionally pull, migrate, then start.
+#
+# Usage:
+#   bin/deploy            # pull latest image, migrate, start
+#   bin/deploy --no-pull   # skip pull (use whatever image is already local — for local testing)
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+COMPOSE="docker compose -f docker-compose.prod.yml"
+
+if [[ "${1:-}" != "--no-pull" ]]; then
+  echo "==> Pulling latest image"
+  $COMPOSE pull
+else
+  echo "==> Skipping pull (--no-pull)"
+fi
+
+echo "==> Running database migrations"
+$COMPOSE run --rm web bin/rails db:prepare
+
+echo "==> Starting services"
+$COMPOSE up -d
+
+echo "==> Done. Current status:"
+$COMPOSE ps

@@ -85,3 +85,12 @@ jobs:
 
       - name: Run tests
         run: bin/rails test
+
+  docker-build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Build image (no push) to catch Dockerfile/bundle issues early
+        run: docker build -t store:pr-check .
